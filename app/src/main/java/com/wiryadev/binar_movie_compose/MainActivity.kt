@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.wiryadev.binar_movie_compose.ui.auth.login.LoginScreen
 import com.wiryadev.binar_movie_compose.ui.auth.register.RegisterScreen
 import com.wiryadev.binar_movie_compose.ui.theme.BinarMovieComposeTheme
 
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RegisterScreen(onRegisterSubmitted = { _, _, _ -> })
+                    LoginScreen(onLoginSubmitted = { _, _, ->})
                 }
             }
         }

@@ -20,7 +20,7 @@ import com.wiryadev.binar_movie_compose.ui.components.*
 @ExperimentalMaterial3Api
 @Composable
 fun RegisterScreen(
-    onRegisterSubmitted: (String, String, String) -> Unit,
+    onRegisterSubmitted: (username: String, email: String, password: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
