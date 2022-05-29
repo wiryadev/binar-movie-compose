@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.wiryadev.binar_movie_compose.data.local.entity.UserEntity
 import com.wiryadev.binar_movie_compose.data.repositories.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

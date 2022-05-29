@@ -23,6 +23,44 @@ import androidx.compose.ui.unit.dp
 import com.wiryadev.binar_movie_compose.R
 
 @Composable
+fun Username(
+    usernameState: TextFieldState = remember { TextFieldState() },
+    imeAction: ImeAction = ImeAction.Next,
+    onImeAction: () -> Unit = {}
+) {
+    OutlinedTextField(
+        value = usernameState.text,
+        onValueChange = {
+            usernameState.text = it
+        },
+        label = {
+            Text(
+                text = stringResource(id = R.string.username),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .onFocusChanged { focusState ->
+                usernameState.onFocusChange(focusState.isFocused)
+                if (!focusState.isFocused) {
+                    usernameState.enableShowErrors()
+                }
+            },
+        textStyle = MaterialTheme.typography.bodyMedium,
+        isError = usernameState.showErrors(),
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = imeAction),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                onImeAction()
+            }
+        )
+    )
+
+    usernameState.getError()?.let { error -> TextFieldError(textError = error) }
+}
+
+@Composable
 fun Email(
     emailState: TextFieldState = remember { EmailState() },
     imeAction: ImeAction = ImeAction.Next,
