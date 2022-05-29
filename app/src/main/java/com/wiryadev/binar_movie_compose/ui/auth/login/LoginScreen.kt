@@ -20,6 +20,7 @@ import com.wiryadev.binar_movie_compose.ui.components.*
 @Composable
 fun LoginScreen(
     onLoginSubmitted: (email: String, password: String) -> Unit,
+    onNavigateRegisterClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -71,6 +72,14 @@ fun LoginScreen(
                             text = stringResource(id = R.string.login)
                         )
                     }
+                }
+            }
+            item {
+                TextButton(
+                    onClick = onNavigateRegisterClicked,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(id = R.string.register))
                 }
             }
         }

@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen(onLoginSubmitted = { _, _, ->})
+                    LoginScreen(onLoginSubmitted = { _, _ -> }, onNavigateRegisterClicked = {})
                 }
             }
         }
