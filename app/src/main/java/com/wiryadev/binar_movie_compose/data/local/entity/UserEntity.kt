@@ -30,12 +30,6 @@ data class UserEntity(
     @ColumnInfo(name = "full_name")
     var fullName: String? = null,
 
-    @ColumnInfo(name = "birth_date")
-    var birthDate: String? = null,
-
     @ColumnInfo(name = "address")
     var address: String? = null,
-
-    @ColumnInfo(name = "profile_image")
-    var profileImage: String? = null,
 )
