@@ -1,6 +1,5 @@
 package com.wiryadev.binar_movie_compose.data.repositories.tv
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.wiryadev.binar_movie_compose.data.local.entity.TvEntity
 import com.wiryadev.binar_movie_compose.data.remote.Result
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TvRepository {
 
-    fun discoverTvShows(): LiveData<PagingData<TvDto>>
+    fun discoverTvShows(): Flow<PagingData<TvDto>>
 
     fun getTvShowDetail(tvId: Int): Flow<Result<DetailTvResponse>>
 

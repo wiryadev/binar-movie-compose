@@ -1,10 +1,8 @@
 package com.wiryadev.binar_movie_compose.data.repositories.tv
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.wiryadev.binar_movie_compose.data.local.FavoriteLocalDataSource
 import com.wiryadev.binar_movie_compose.data.local.entity.TvEntity
 import com.wiryadev.binar_movie_compose.data.remote.Result
@@ -23,7 +21,7 @@ class TvRepositoryImpl @Inject constructor(
     private val localDataSource: FavoriteLocalDataSource,
 ) : TvRepository {
 
-    override fun discoverTvShows(): LiveData<PagingData<TvDto>> {
+    override fun discoverTvShows(): Flow<PagingData<TvDto>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGING_PAGE_SIZE
@@ -31,7 +29,7 @@ class TvRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 TvPagingSource(remoteDataSource = remoteDataSource)
             }
-        ).liveData
+        ).flow
     }
 
     override fun getTvShowDetail(tvId: Int): Flow<Result<DetailTvResponse>> {
