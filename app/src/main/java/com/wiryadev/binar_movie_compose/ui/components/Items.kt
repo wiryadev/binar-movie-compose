@@ -2,6 +2,7 @@ package com.wiryadev.binar_movie_compose.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,10 +20,11 @@ import com.wiryadev.binar_movie_compose.ui.theme.BinarMovieComposeTheme
 @Composable
 fun MovieCard(
     movie: MovieDto,
-    onClick: () -> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     GenericCard(
+        id = movie.id,
         posterUrl = "${BuildConfig.BASE_IMAGE_URL}${movie.posterPath}",
         title = movie.title,
         date = movie.releaseDate,
@@ -36,10 +38,11 @@ fun MovieCard(
 @Composable
 fun TvCard(
     tv: TvDto,
-    onClick: () -> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     GenericCard(
+        id = tv.id,
         posterUrl = "${BuildConfig.BASE_IMAGE_URL}${tv.posterPath}",
         title = tv.name,
         date = tv.firstAirDate,
@@ -52,22 +55,23 @@ fun TvCard(
 @ExperimentalMaterial3Api
 @Composable
 private fun GenericCard(
+    id: Int,
     posterUrl: String,
     title: String,
     date: String,
     rating: String,
-    onClick: () -> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
-            .wrapContentHeight()
+            .height(150.dp)
             .fillMaxWidth(),
-        onClick = onClick,
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.primary,
-        ),
+        onClick = {
+            onClick.invoke(id)
+        },
+        colors = CardDefaults.outlinedCardColors(),
+        border = CardDefaults.outlinedCardBorder(),
     ) {
         Row {
             Image(
@@ -75,7 +79,7 @@ private fun GenericCard(
                 contentDescription = "",
                 modifier = Modifier
                     .width(100.dp)
-                    .height(150.dp),
+                    .height(160.dp),
                 contentScale = ContentScale.FillBounds,
             )
             Column(
@@ -83,18 +87,20 @@ private fun GenericCard(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
                 )
                 Text(
                     text = date,
                     style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
                 )
                 SuggestionChip(
                     onClick = { /* do nothing */ },
                     label = {
                         Text(
                             text = rating,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleSmall,
                         )
                     }
                 )
