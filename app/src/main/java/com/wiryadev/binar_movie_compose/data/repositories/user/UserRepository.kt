@@ -13,7 +13,7 @@ interface UserRepository {
 
     suspend fun checkUserExist(email: String): Int
 
-    suspend fun getUserSession(): Flow<AuthModel>
+    fun getUserSession(): Flow<AuthModel>
 
     suspend fun saveUserSession(user: AuthModel)
 

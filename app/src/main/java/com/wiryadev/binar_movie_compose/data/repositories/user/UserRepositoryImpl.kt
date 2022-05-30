@@ -30,7 +30,7 @@ class UserRepositoryImpl @Inject constructor(
         return localDataSource.checkUserExist(email = email)
     }
 
-    override suspend fun getUserSession(): Flow<AuthModel> {
+    override fun getUserSession(): Flow<AuthModel> {
         return preferenceDataSource.getUserSession()
     }
 
