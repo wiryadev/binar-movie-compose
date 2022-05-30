@@ -57,13 +57,13 @@ val AppTypography = Typography(
     ),
     titleLarge = TextStyle(
         fontFamily = Montserrat,
-        fontWeight = FontWeight.W700,
-        fontSize = 22.sp,
+        fontWeight = FontWeight.W600,
+        fontSize = 20.sp,
         lineHeight = 28.sp
     ),
     titleMedium = TextStyle(
         fontFamily = Montserrat,
-        fontWeight = FontWeight.W700,
+        fontWeight = FontWeight.W600,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.1.sp
