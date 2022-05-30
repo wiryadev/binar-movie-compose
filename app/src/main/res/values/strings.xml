@@ -10,6 +10,10 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
 
+    <string name="movies">Movies</string>
+    <string name="tv_shows">Tv Shows</string>
+    <string name="profile">Profile</string>
+
     <string name="show_password">Show password</string>
     <string name="hide_password">Hide password</string>
 </resources>
