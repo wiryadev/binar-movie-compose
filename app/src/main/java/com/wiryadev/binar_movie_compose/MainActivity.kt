@@ -11,12 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wiryadev.binar_movie_compose.ui.auth.login.LoginScreen
-import com.wiryadev.binar_movie_compose.ui.auth.register.RegisterScreen
-import com.wiryadev.binar_movie_compose.ui.home.movie.list.MoviesScreen
-import com.wiryadev.binar_movie_compose.ui.home.movie.list.MoviesViewModel
+import com.wiryadev.binar_movie_compose.ui.home.tv.list.TvShowsScreen
+import com.wiryadev.binar_movie_compose.ui.home.tv.list.TvShowsViewModel
 import com.wiryadev.binar_movie_compose.ui.theme.BinarMovieComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +24,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel: MoviesViewModel = viewModel()
+            val viewModel: TvShowsViewModel = viewModel()
             BinarMovieComposeTheme {
 
                 // A surface container using the 'background' color from the theme
@@ -35,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MoviesScreen(viewModel = viewModel, onMovieClick = { })
+                    TvShowsScreen(viewModel = viewModel, onMovieClick = { })
                 }
             }
         }

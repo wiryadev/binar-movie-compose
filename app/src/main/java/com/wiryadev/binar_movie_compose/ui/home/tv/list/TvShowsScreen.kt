@@ -1,4 +1,4 @@
-package com.wiryadev.binar_movie_compose.ui.home.movie.list
+package com.wiryadev.binar_movie_compose.ui.home.tv.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,34 +13,34 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.wiryadev.binar_movie_compose.data.remote.movie.dto.MovieDto
-import com.wiryadev.binar_movie_compose.ui.components.MovieCard
+import com.wiryadev.binar_movie_compose.data.remote.tv.dto.TvDto
+import com.wiryadev.binar_movie_compose.ui.components.TvCard
 import kotlinx.coroutines.flow.Flow
 
 @ExperimentalMaterial3Api
 @Composable
-fun MoviesScreen(
-    viewModel: MoviesViewModel,
+fun TvShowsScreen(
+    viewModel: TvShowsViewModel,
     onMovieClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth()
     ) {
-        MovieList(moviesPagingData = viewModel.movies, onMovieClick = onMovieClick)
+        TvList(tvShowsPagingData = viewModel.tvShows, onMovieClick = onMovieClick)
     }
 }
 
 @ExperimentalMaterial3Api
 @Composable
-private fun MovieList(
-    moviesPagingData: Flow<PagingData<MovieDto>>,
+private fun TvList(
+    tvShowsPagingData: Flow<PagingData<TvDto>>,
     onMovieClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val movies = moviesPagingData.collectAsLazyPagingItems()
-    val errorState = movies.loadState.refresh as? LoadState.Error
-        ?: movies.loadState.append as? LoadState.Error
+    val tvShows = tvShowsPagingData.collectAsLazyPagingItems()
+    val errorState = tvShows.loadState.refresh as? LoadState.Error
+        ?: tvShows.loadState.append as? LoadState.Error
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -49,12 +49,12 @@ private fun MovieList(
             .fillMaxWidth(),
     ) {
         items(
-            items = movies,
-            key = { movie -> movie.id }
+            items = tvShows,
+            key = { tv -> tv.id }
         ) { movie ->
             movie?.let {
-                MovieCard(
-                    movie = it,
+                TvCard(
+                    tv = it,
                     onClick = onMovieClick,
                 )
             }
