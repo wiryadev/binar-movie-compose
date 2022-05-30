@@ -12,21 +12,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import androidx.core.os.ConfigurationCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wiryadev.binar_movie_compose.R
-import java.util.Locale
+import com.wiryadev.binar_movie_compose.ui.home.movie.list.MoviesScreen
+import com.wiryadev.binar_movie_compose.ui.home.tv.list.TvShowsScreen
+import java.util.*
 
-
+@ExperimentalMaterial3Api
 fun NavGraphBuilder.addHomeGraph(
+    onMovieSelected: (Int, NavBackStackEntry) -> Unit,
+    onTvSelected: (Int, NavBackStackEntry) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    composable(HomeSections.MOVIE.route) {
-        // MovieScreen
+    composable(HomeSections.MOVIE.route) { from ->
+        MoviesScreen(
+            viewModel = hiltViewModel(),
+            onMovieClick = { id ->
+                onMovieSelected(id, from)
+            },
+            modifier = modifier,
+        )
     }
-    composable(HomeSections.TV.route) {
-        // TvScreen
+    composable(HomeSections.TV.route) { from ->
+        TvShowsScreen(
+            viewModel = hiltViewModel(),
+            onMovieClick = { id ->
+                onTvSelected(id, from)
+            },
+            modifier = modifier,
+        )
     }
     composable(HomeSections.PROFILE.route) {
         // ProfileScreen
@@ -58,11 +77,7 @@ fun BinarBottomBar(
 
         tabs.forEach { section ->
             val selected = section == currentSection
-
-            val configuration = LocalConfiguration.current
-            val currentLocale = ConfigurationCompat
-                .getLocales(configuration)[0] ?: Locale.getDefault()
-            val text = stringResource(section.title).uppercase(currentLocale)
+            val text = stringResource(section.title)
 
             NavigationBarItem(
                 selected = selected,
@@ -76,7 +91,9 @@ fun BinarBottomBar(
                 label = {
                     Text(
                         text = text,
-                        style = MaterialTheme.typography.labelSmall,
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            fontSize = 12.sp
+                        ),
                         maxLines = 1,
                     )
                 },
