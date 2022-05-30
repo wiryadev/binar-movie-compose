@@ -10,10 +10,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import androidx.core.os.ConfigurationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -21,7 +19,6 @@ import androidx.navigation.compose.composable
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.home.movie.list.MoviesScreen
 import com.wiryadev.binar_movie_compose.ui.home.tv.list.TvShowsScreen
-import java.util.*
 
 @ExperimentalMaterial3Api
 fun NavGraphBuilder.addHomeGraph(

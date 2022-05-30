@@ -5,6 +5,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
@@ -14,6 +15,8 @@ import androidx.navigation.compose.rememberNavController
 import com.wiryadev.binar_movie_compose.ui.home.BinarBottomBar
 import com.wiryadev.binar_movie_compose.ui.home.HomeSections
 import com.wiryadev.binar_movie_compose.ui.home.addHomeGraph
+import com.wiryadev.binar_movie_compose.ui.home.movie.detail.DetailMovieScreen
+import com.wiryadev.binar_movie_compose.ui.home.movie.detail.DetailMovieViewModel
 
 object MainDestinations {
     const val HOME_ROUTE = "home"
@@ -93,7 +96,16 @@ private fun NavGraphBuilder.homeNavGraph(
         arguments = listOf(navArgument(MainDestinations.MOVIE_ID_KEY) { type = NavType.IntType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
-        val snackId = arguments.getLong(MainDestinations.MOVIE_ID_KEY)
+        val movieId = arguments.getInt(MainDestinations.MOVIE_ID_KEY)
+        val viewModel: DetailMovieViewModel = hiltViewModel()
+        DetailMovieScreen(movieId, viewModel)
+    }
+    composable(
+        "${MainDestinations.TV_DETAIL_ROUTE}/{${MainDestinations.TV_ID_KEY}}",
+        arguments = listOf(navArgument(MainDestinations.TV_ID_KEY) { type = NavType.IntType })
+    ) { backStackEntry ->
+        val arguments = requireNotNull(backStackEntry.arguments)
+        val tvId = arguments.getInt(MainDestinations.TV_ID_KEY)
 //        SnackDetail(snackId, upPress)
     }
 }
