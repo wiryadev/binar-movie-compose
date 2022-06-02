@@ -119,6 +119,7 @@ private fun NavGraphBuilder.authNavGraph(
         composable(route = AuthSections.REGISTER.route) {
             val viewModel: RegisterViewModel = hiltViewModel()
             RegisterScreen(
+                viewModel = viewModel,
                 onRegisterSubmitted = { username, email, password ->
                     viewModel.register(
                         UserEntity(

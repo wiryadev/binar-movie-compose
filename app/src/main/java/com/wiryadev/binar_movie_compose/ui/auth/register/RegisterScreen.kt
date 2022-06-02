@@ -4,8 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -16,15 +15,45 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+
 
 @ExperimentalMaterial3Api
 @Composable
 fun RegisterScreen(
+    viewModel: RegisterViewModel,
     onRegisterSubmitted: (username: String, email: String, password: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    // decouple snackbar host state from scaffold state for demo purposes
+    // this state, channel and flow is for demo purposes to demonstrate business logic layer
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
+    // we allow only one snackbar to be in the queue here, hence conflated
+    val channel = remember { Channel<String>(Channel.CONFLATED) }
+    LaunchedEffect(channel) {
+        channel.receiveAsFlow().collect { message ->
+            snackbarHostState.showSnackbar(
+                message = message,
+                actionLabel = "OK"
+            )
+        }
+    }
+
+    uiState.errorMessage?.let {
+        channel.trySend(it)
+    }
+
     Scaffold(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(16.dp),
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
     ) { contentPadding ->
         LazyColumn(
             contentPadding = contentPadding,
@@ -55,7 +84,9 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
                     val emailState = remember { EmailState() }
-                    EmailTextField(emailState, onImeAction = { passwordFocusRequest.requestFocus() })
+                    EmailTextField(
+                        emailState,
+                        onImeAction = { passwordFocusRequest.requestFocus() })
 
                     Spacer(modifier = Modifier.height(16.dp))
                     val passwordState = remember { PasswordState() }
@@ -95,8 +126,9 @@ fun RegisterScreen(
                             )
                         },
                         modifier = Modifier.fillMaxWidth(),
-                        enabled = emailState.isValid &&
-                                passwordState.isValid && confirmPasswordState.isValid
+                        enabled = emailState.isValid
+                                && passwordState.isValid
+                                && confirmPasswordState.isValid
                     ) {
                         Text(text = stringResource(id = R.string.register))
                     }
