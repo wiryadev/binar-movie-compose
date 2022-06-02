@@ -51,15 +51,15 @@ fun RegisterScreen(
                     val confirmationPasswordFocusRequest = remember { FocusRequester() }
 
                     val usernameState = remember { TextFieldState() }
-                    Username(usernameState)
+                    UsernameTextField(usernameState)
 
                     Spacer(modifier = Modifier.height(16.dp))
                     val emailState = remember { EmailState() }
-                    Email(emailState, onImeAction = { passwordFocusRequest.requestFocus() })
+                    EmailTextField(emailState, onImeAction = { passwordFocusRequest.requestFocus() })
 
                     Spacer(modifier = Modifier.height(16.dp))
                     val passwordState = remember { PasswordState() }
-                    Password(
+                    PasswordTextField(
                         label = stringResource(id = R.string.password),
                         passwordState = passwordState,
                         imeAction = ImeAction.Next,
@@ -70,7 +70,7 @@ fun RegisterScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     val confirmPasswordState =
                         remember { ConfirmPasswordState(passwordState = passwordState) }
-                    Password(
+                    PasswordTextField(
                         label = stringResource(id = R.string.confirm_password),
                         passwordState = confirmPasswordState,
                         onImeAction = {

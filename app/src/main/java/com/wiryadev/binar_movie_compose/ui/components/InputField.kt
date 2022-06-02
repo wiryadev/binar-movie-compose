@@ -9,6 +9,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.wiryadev.binar_movie_compose.R
 
 @Composable
-fun Username(
+fun UsernameTextField(
     usernameState: TextFieldState = remember { TextFieldState() },
     imeAction: ImeAction = ImeAction.Next,
     onImeAction: () -> Unit = {}
@@ -37,6 +40,12 @@ fun Username(
             Text(
                 text = stringResource(id = R.string.username),
                 style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Rounded.Person,
+                contentDescription = null,
             )
         },
         modifier = Modifier
@@ -61,7 +70,7 @@ fun Username(
 }
 
 @Composable
-fun Email(
+fun EmailTextField(
     emailState: TextFieldState = remember { EmailState() },
     imeAction: ImeAction = ImeAction.Next,
     onImeAction: () -> Unit = {}
@@ -75,6 +84,11 @@ fun Email(
             Text(
                 text = stringResource(id = R.string.email),
                 style = MaterialTheme.typography.bodyMedium
+            )
+        },leadingIcon = {
+            Icon(
+                imageVector = Icons.Rounded.Email,
+                contentDescription = null,
             )
         },
         modifier = Modifier
@@ -99,7 +113,7 @@ fun Email(
 }
 
 @Composable
-fun Password(
+fun PasswordTextField(
     label: String,
     passwordState: TextFieldState,
     modifier: Modifier = Modifier,
@@ -126,6 +140,12 @@ fun Password(
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Rounded.Lock,
+                contentDescription = null,
             )
         },
         trailingIcon = {

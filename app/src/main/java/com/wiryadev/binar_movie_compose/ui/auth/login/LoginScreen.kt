@@ -49,12 +49,12 @@ fun LoginScreen(
                 Column(modifier = Modifier.fillMaxWidth()) {
                     val focusRequester = remember { FocusRequester() }
                     val emailState = remember { EmailState() }
-                    Email(emailState, onImeAction = { focusRequester.requestFocus() })
+                    EmailTextField(emailState, onImeAction = { focusRequester.requestFocus() })
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     val passwordState = remember { PasswordState() }
-                    Password(
+                    PasswordTextField(
                         label = stringResource(id = R.string.password),
                         passwordState = passwordState,
                         modifier = Modifier.focusRequester(focusRequester),
