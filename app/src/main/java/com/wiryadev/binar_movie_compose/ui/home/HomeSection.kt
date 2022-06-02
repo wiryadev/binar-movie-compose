@@ -38,7 +38,7 @@ fun NavGraphBuilder.addHomeGraph(
     composable(HomeSections.TV.route) { from ->
         TvShowsScreen(
             viewModel = hiltViewModel(),
-            onMovieClick = { id ->
+            onTvClick = { id ->
                 onTvSelected(id, from)
             },
             modifier = modifier,
