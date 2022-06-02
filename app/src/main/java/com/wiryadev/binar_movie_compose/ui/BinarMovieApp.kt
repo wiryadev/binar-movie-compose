@@ -12,13 +12,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.wiryadev.binar_movie_compose.data.local.entity.UserEntity
+import com.wiryadev.binar_movie_compose.ui.auth.AuthSections
+import com.wiryadev.binar_movie_compose.ui.auth.login.LoginScreen
+import com.wiryadev.binar_movie_compose.ui.auth.login.LoginViewModel
+import com.wiryadev.binar_movie_compose.ui.auth.register.RegisterScreen
+import com.wiryadev.binar_movie_compose.ui.auth.register.RegisterViewModel
 import com.wiryadev.binar_movie_compose.ui.home.BinarBottomBar
 import com.wiryadev.binar_movie_compose.ui.home.HomeSections
 import com.wiryadev.binar_movie_compose.ui.home.addHomeGraph
 import com.wiryadev.binar_movie_compose.ui.home.movie.detail.DetailMovieScreen
 import com.wiryadev.binar_movie_compose.ui.home.movie.detail.DetailMovieViewModel
+import com.wiryadev.binar_movie_compose.ui.home.tv.detail.DetailTvScreen
+import com.wiryadev.binar_movie_compose.ui.home.tv.detail.DetailTvViewModel
 
 object MainDestinations {
+    const val AUTH_ROUTE = "auth"
     const val HOME_ROUTE = "home"
     const val MOVIE_DETAIL_ROUTE = "movie"
     const val MOVIE_ID_KEY = "movieId"
@@ -28,15 +37,21 @@ object MainDestinations {
 
 @ExperimentalMaterial3Api
 @Composable
-fun BinarMovieApp() {
+fun BinarMovieApp(
+    isLoggedIn: Boolean,
+) {
     val navController = rememberNavController()
 
     val bottomBarTabs = HomeSections.values()
     val bottomBarRoutes = bottomBarTabs.map { it.route }
 
-    val shouldShowBottomBar = navController
-        .currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
-    val currentRoute = navController.currentDestination?.route ?: MainDestinations.HOME_ROUTE
+    val startRoute = if (isLoggedIn) {
+        MainDestinations.HOME_ROUTE
+    } else MainDestinations.AUTH_ROUTE
+    val shouldShowBottomBar = navController.currentBackStackEntryAsState().value
+        ?.destination
+        ?.route in bottomBarRoutes
+    val currentRoute = navController.currentDestination?.route ?: startRoute
 
     Scaffold(
         bottomBar = {
@@ -53,37 +68,75 @@ fun BinarMovieApp() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = MainDestinations.HOME_ROUTE,
+            startDestination = startRoute,
             modifier = Modifier.padding(innerPadding)
         ) {
-            homeNavGraph(
-                onMovieSelected = { id, from ->
-                    navigateToMovieDetail(
-                        navController = navController,
-                        movieId = id,
-                        from = from
-                    )
+            if (isLoggedIn) {
+                mainNavGraph(
+                    onMovieSelected = { id, from ->
+                        navigateToMovieDetail(
+                            navController = navController,
+                            movieId = id,
+                            from = from
+                        )
+                    },
+                    onTvSelected = { id, from ->
+                        navigateToTvDetail(
+                            navController = navController,
+                            tvId = id,
+                            from = from
+                        )
+                    },
+                )
+            } else {
+                authNavGraph(
+                    navController = navController,
+                )
+            }
+        }
+    }
+}
+
+@ExperimentalMaterial3Api
+private fun NavGraphBuilder.authNavGraph(
+    navController: NavHostController
+) {
+    navigation(
+        route = MainDestinations.AUTH_ROUTE,
+        startDestination = AuthSections.LOGIN.route
+    ) {
+        composable(route = AuthSections.LOGIN.route) {
+            val viewModel: LoginViewModel = hiltViewModel()
+            LoginScreen(
+                onLoginSubmitted = { email, password ->
+                    viewModel.login(email, password)
                 },
-                onTvSelected = { id, from ->
-                    navigateToTvDetail(
-                        navController = navController,
-                        tvId = id,
-                        from = from
-                    )
-                },
-                upPress = {
-                    upPress(navController)
+                onNavigateRegisterClicked = {
+                    navController.navigate(route = AuthSections.REGISTER.route)
                 }
+            )
+        }
+        composable(route = AuthSections.REGISTER.route) {
+            val viewModel: RegisterViewModel = hiltViewModel()
+            RegisterScreen(
+                onRegisterSubmitted = { username, email, password ->
+                    viewModel.register(
+                        UserEntity(
+                            email = email,
+                            username = username,
+                            password = password,
+                        )
+                    )
+                },
             )
         }
     }
 }
 
 @ExperimentalMaterial3Api
-private fun NavGraphBuilder.homeNavGraph(
+private fun NavGraphBuilder.mainNavGraph(
     onMovieSelected: (Int, NavBackStackEntry) -> Unit,
     onTvSelected: (Int, NavBackStackEntry) -> Unit,
-    upPress: () -> Unit
 ) {
     navigation(
         route = MainDestinations.HOME_ROUTE,
@@ -106,12 +159,9 @@ private fun NavGraphBuilder.homeNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val tvId = arguments.getInt(MainDestinations.TV_ID_KEY)
-//        SnackDetail(snackId, upPress)
+        val viewModel: DetailTvViewModel = hiltViewModel()
+        DetailTvScreen(tvId, viewModel)
     }
-}
-
-fun upPress(navController: NavHostController) {
-    navController.navigateUp()
 }
 
 fun navigateToBottomBarRoute(
