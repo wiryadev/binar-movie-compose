@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.placeholder.material.placeholder
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.*
 import kotlinx.coroutines.channels.Channel
@@ -114,9 +115,7 @@ fun RegisterScreen(
                         modifier = Modifier.focusRequester(confirmationPasswordFocusRequest)
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
                     Button(
                         onClick = {
                             onRegisterSubmitted(
@@ -125,10 +124,15 @@ fun RegisterScreen(
                                 passwordState.text,
                             )
                         },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .placeholder(
+                                visible = uiState.isLoading,
+                            ),
                         enabled = emailState.isValid
                                 && passwordState.isValid
                                 && confirmPasswordState.isValid
+                                && !uiState.isLoading
                     ) {
                         Text(text = stringResource(id = R.string.register))
                     }
