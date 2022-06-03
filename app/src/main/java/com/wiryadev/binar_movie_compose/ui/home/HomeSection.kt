@@ -18,6 +18,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.home.movie.list.MoviesScreen
+import com.wiryadev.binar_movie_compose.ui.home.profile.ProfileScreen
 import com.wiryadev.binar_movie_compose.ui.home.tv.list.TvShowsScreen
 
 @ExperimentalMaterial3Api
@@ -45,7 +46,10 @@ fun NavGraphBuilder.addHomeGraph(
         )
     }
     composable(HomeSections.PROFILE.route) {
-        // ProfileScreen
+        ProfileScreen(
+            viewModel = hiltViewModel(),
+            modifier = modifier,
+        )
     }
 }
 

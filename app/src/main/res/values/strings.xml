@@ -9,6 +9,7 @@
 
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
 
     <string name="movies">Movies</string>
     <string name="tv_shows">Tv Shows</string>
@@ -25,4 +26,5 @@
 
     <string name="registration_success">Registration Success</string>
     <string name="registration_success_subtitle">Now you can login to use our app ~~~</string>
+    <string name="logged_in_as">You\'re logged in as <b>%s</b></string>
 </resources>
