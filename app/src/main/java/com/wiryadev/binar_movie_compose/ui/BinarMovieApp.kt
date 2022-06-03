@@ -108,9 +108,7 @@ private fun NavGraphBuilder.authNavGraph(
         composable(route = AuthSections.LOGIN.route) {
             val viewModel: LoginViewModel = hiltViewModel()
             LoginScreen(
-                onLoginSubmitted = { email, password ->
-                    viewModel.login(email, password)
-                },
+                viewModel = viewModel,
                 onNavigateRegisterClicked = {
                     navController.navigate(route = AuthSections.REGISTER.route)
                 }

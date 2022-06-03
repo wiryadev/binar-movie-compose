@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,16 +15,21 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.*
 
 @ExperimentalMaterial3Api
 @Composable
 fun LoginScreen(
-    onLoginSubmitted: (email: String, password: String) -> Unit,
+    viewModel: LoginViewModel,
     onNavigateRegisterClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         modifier = modifier.padding(16.dp)
     ) { contentPadding ->
@@ -58,15 +65,25 @@ fun LoginScreen(
                         label = stringResource(id = R.string.password),
                         passwordState = passwordState,
                         modifier = Modifier.focusRequester(focusRequester),
-                        onImeAction = { onLoginSubmitted(emailState.text, passwordState.text) }
+                        onImeAction = {
+                            viewModel.login(emailState.text, passwordState.text)
+                        }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
-                        onClick = { onLoginSubmitted(emailState.text, passwordState.text) },
+                        onClick = {
+                            viewModel.login(emailState.text, passwordState.text)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        enabled = emailState.isValid && passwordState.isValid
+                            .padding(vertical = 16.dp)
+                            .placeholder(
+                                visible = uiState.isLoading,
+                                highlight = PlaceholderHighlight.shimmer(),
+                            ),
+                        enabled = emailState.isValid
+                                && passwordState.isValid
+                                && !uiState.isLoading
                     ) {
                         Text(
                             text = stringResource(id = R.string.login)

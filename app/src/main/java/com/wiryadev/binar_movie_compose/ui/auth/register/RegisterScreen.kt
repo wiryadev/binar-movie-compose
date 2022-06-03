@@ -13,7 +13,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.*
 import kotlinx.coroutines.channels.Channel
@@ -148,6 +150,7 @@ fun RegisterFormScreen(
                             .fillMaxWidth()
                             .placeholder(
                                 visible = uiState.isLoading,
+                                highlight = PlaceholderHighlight.shimmer(),
                             ),
                         enabled = emailState.isValid
                                 && passwordState.isValid
