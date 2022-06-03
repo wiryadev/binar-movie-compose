@@ -13,7 +13,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 import com.wiryadev.binar_movie_compose.BuildConfig
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.theme.BinarMovieComposeTheme
@@ -52,15 +56,22 @@ private fun PosterWithRating(
     rating: String,
     modifier: Modifier = Modifier
 ) {
+    val painter = rememberAsyncImagePainter(model = "${BuildConfig.BASE_IMAGE_URL}${posterPath}")
+    val isImageLoading = painter.state is AsyncImagePainter.State.Loading
+
     Box(
         modifier = modifier
             .size(
                 width = 128.dp,
                 height = 192.dp,
             )
+            .placeholder(
+                visible = isImageLoading,
+                highlight = PlaceholderHighlight.shimmer(),
+            ),
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = "${BuildConfig.BASE_IMAGE_URL}${posterPath}"),
+            painter = painter,
             contentDescription = null,
             modifier = Modifier
                 .matchParentSize()

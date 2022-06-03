@@ -2,7 +2,9 @@ package com.wiryadev.binar_movie_compose.ui.home.tv.detail
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.GenericDetailScreen
@@ -13,9 +15,12 @@ fun DetailTvScreen(
     id: Int,
     viewModel: DetailTvViewModel,
 ) {
-    viewModel.getDetail(id)
-    val uiState = viewModel.uiState.collectAsState()
-    val tv = uiState.value.tv
+    LaunchedEffect(key1 = id) {
+        viewModel.getDetail(id)
+    }
+
+    val uiState by viewModel.uiState.collectAsState()
+    val tv = uiState.tv
 
     tv?.let {
         GenericDetailScreen(
