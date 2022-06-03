@@ -14,17 +14,25 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val userRepository: UserRepository,
-) : ViewModel()  {
+) : ViewModel() {
 
-    private val _isLoggedIn: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isLoggedIn: StateFlow<Boolean> get() = _isLoggedIn.asStateFlow()
+    private val _mainUiState: MutableStateFlow<MainUiState> =
+        MutableStateFlow(MainUiState.Initial)
+    val mainUiState: StateFlow<MainUiState> get() = _mainUiState.asStateFlow()
 
     fun getUser() {
         viewModelScope.launch {
             userRepository.getUserSession().collectLatest { user ->
-                _isLoggedIn.value = user.email.isNotBlank()
+                _mainUiState.value = MainUiState.Loaded(
+                    isLoggedIn = user.email.isNotBlank()
+                )
             }
         }
     }
 
+}
+
+sealed class MainUiState {
+    object Initial : MainUiState()
+    data class Loaded(val isLoggedIn: Boolean) : MainUiState()
 }
