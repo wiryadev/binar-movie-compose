@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val mainUiState: MainUiState by viewModel.mainUiState.collectAsState()
 
-            BinarMovieComposeTheme {
+            BinarMovieComposeTheme(darkTheme = false) {
                 MainScreen(state = mainUiState)
             }
         }
