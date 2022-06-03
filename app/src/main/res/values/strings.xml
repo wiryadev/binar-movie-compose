@@ -22,4 +22,7 @@
     <string name="show_password">Show password</string>
     <string name="hide_password">Hide password</string>
     <string name="retry">Retry</string>
+
+    <string name="registration_success">Registration Success</string>
+    <string name="registration_success_subtitle">Now you can login to use our app ~~~</string>
 </resources>

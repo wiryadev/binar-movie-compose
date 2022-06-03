@@ -129,6 +129,9 @@ private fun NavGraphBuilder.authNavGraph(
                         )
                     )
                 },
+                onNavigateUp = {
+                    navController.navigateUp()
+                }
             )
         }
     }

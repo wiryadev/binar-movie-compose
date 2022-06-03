@@ -25,10 +25,30 @@ import kotlinx.coroutines.flow.receiveAsFlow
 fun RegisterScreen(
     viewModel: RegisterViewModel,
     onRegisterSubmitted: (username: String, email: String, password: String) -> Unit,
+    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    if (uiState.isSuccess) {
+        RegisterSuccessScreen(onLoginClick = onNavigateUp)
+
+    } else {
+        RegisterFormScreen(
+            uiState = uiState,
+            onRegisterSubmitted = onRegisterSubmitted,
+            modifier = modifier,
+        )
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun RegisterFormScreen(
+    uiState: RegisterUiState,
+    onRegisterSubmitted: (username: String, email: String, password: String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     // decouple snackbar host state from scaffold state for demo purposes
     // this state, channel and flow is for demo purposes to demonstrate business logic layer
     val snackbarHostState = remember {
