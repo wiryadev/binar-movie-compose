@@ -2,7 +2,6 @@ package com.wiryadev.binar_movie_compose.ui.home.movie.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wiryadev.binar_movie_compose.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie_compose.data.remote.Result
 import com.wiryadev.binar_movie_compose.data.remote.movie.dto.DetailMovieResponse
 import com.wiryadev.binar_movie_compose.data.repositories.movie.MovieRepository
@@ -42,28 +41,6 @@ class DetailMovieViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun checkIsFavorite(id: Int) = movieRepository.checkFavoriteMovie(id = id)
-
-    fun addFavoriteMovie(movie: DetailMovieResponse) = viewModelScope.launch {
-        movieRepository.addFavoriteMovie(
-            movie = MovieEntity(
-                movieId = movie.id,
-                title = movie.title,
-                posterPath = movie.posterPath,
-            )
-        )
-    }
-
-    fun deleteFavoriteMovie(movie: DetailMovieResponse) = viewModelScope.launch {
-        movieRepository.deleteFavoriteMovie(
-            movie = MovieEntity(
-                movieId = movie.id,
-                title = movie.title,
-                posterPath = movie.posterPath,
-            )
-        )
     }
 
 }
