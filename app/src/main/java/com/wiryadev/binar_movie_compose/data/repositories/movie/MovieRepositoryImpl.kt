@@ -3,8 +3,6 @@ package com.wiryadev.binar_movie_compose.data.repositories.movie
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.wiryadev.binar_movie_compose.data.local.FavoriteLocalDataSource
-import com.wiryadev.binar_movie_compose.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie_compose.data.remote.Result
 import com.wiryadev.binar_movie_compose.data.remote.movie.MovieRemoteDataSource
 import com.wiryadev.binar_movie_compose.data.remote.movie.MoviesPagingSource
@@ -18,7 +16,6 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val remoteDataSource: MovieRemoteDataSource,
-    private val localDataSource: FavoriteLocalDataSource,
 ) : MovieRepository {
 
     override fun discoverMovies(): Flow<PagingData<MovieDto>> {
@@ -41,22 +38,6 @@ class MovieRepositoryImpl @Inject constructor(
                 emit(Result.Error(exception = e))
             }
         }.flowOn(Dispatchers.IO)
-    }
-
-    override fun getFavoriteMovies(): Flow<List<MovieEntity>> {
-        return localDataSource.getFavoriteMovies()
-    }
-
-    override fun checkFavoriteMovie(id: Int): Flow<Int> {
-        return localDataSource.checkFavoriteMovie(id = id)
-    }
-
-    override suspend fun addFavoriteMovie(movie: MovieEntity) {
-        localDataSource.addFavoriteMovie(movie = movie)
-    }
-
-    override suspend fun deleteFavoriteMovie(movie: MovieEntity) {
-        localDataSource.deleteFavoriteMovie(movie = movie)
     }
 
 }

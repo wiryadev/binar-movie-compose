@@ -30,8 +30,4 @@ object DatabaseModule {
     @Provides
     fun provideUserDao(database: BinarMovieDatabase) = database.userDao()
 
-    @Singleton
-    @Provides
-    fun provideFavoriteDao(database: BinarMovieDatabase) = database.favoriteDao()
-
 }

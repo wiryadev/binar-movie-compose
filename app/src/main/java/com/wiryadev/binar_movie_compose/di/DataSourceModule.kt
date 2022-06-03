@@ -1,7 +1,5 @@
 package com.wiryadev.binar_movie_compose.di
 
-import com.wiryadev.binar_movie_compose.data.local.FavoriteLocalDataSource
-import com.wiryadev.binar_movie_compose.data.local.FavoriteLocalDataSourceImpl
 import com.wiryadev.binar_movie_compose.data.local.UserLocalDataSource
 import com.wiryadev.binar_movie_compose.data.local.UserLocalDataSourceImpl
 import com.wiryadev.binar_movie_compose.data.preference.UserPreferenceDataSource
@@ -31,12 +29,6 @@ abstract class DataSourceModule {
     abstract fun bindsTvRemoteDataSource(
         tvRemoteDataSourceImpl: TvRemoteDataSourceImpl
     ): TvRemoteDataSource
-
-    @Binds
-    @Singleton
-    abstract fun bindsFavoriteLocalDataSource(
-        favoriteLocalDataSourceImpl: FavoriteLocalDataSourceImpl
-    ): FavoriteLocalDataSource
 
     @Binds
     @Singleton
