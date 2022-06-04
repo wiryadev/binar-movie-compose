@@ -12,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.wiryadev.binar_movie_compose.data.local.entity.UserEntity
 import com.wiryadev.binar_movie_compose.ui.auth.AuthSections
 import com.wiryadev.binar_movie_compose.ui.auth.login.LoginScreen
 import com.wiryadev.binar_movie_compose.ui.auth.login.LoginViewModel
@@ -118,15 +117,6 @@ private fun NavGraphBuilder.authNavGraph(
             val viewModel: RegisterViewModel = hiltViewModel()
             RegisterScreen(
                 viewModel = viewModel,
-                onRegisterSubmitted = { username, email, password ->
-                    viewModel.register(
-                        UserEntity(
-                            email = email,
-                            username = username,
-                            password = password,
-                        )
-                    )
-                },
                 onNavigateUp = {
                     navController.navigateUp()
                 }

@@ -17,16 +17,15 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import com.wiryadev.binar_movie_compose.R
+import com.wiryadev.binar_movie_compose.data.local.entity.UserEntity
 import com.wiryadev.binar_movie_compose.ui.components.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
-
 
 @ExperimentalMaterial3Api
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel,
-    onRegisterSubmitted: (username: String, email: String, password: String) -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -34,11 +33,18 @@ fun RegisterScreen(
 
     if (uiState.isSuccess) {
         RegisterSuccessScreen(onLoginClick = onNavigateUp)
-
     } else {
         RegisterFormScreen(
             uiState = uiState,
-            onRegisterSubmitted = onRegisterSubmitted,
+            onRegisterSubmitted = { username, email, password ->
+                viewModel.register(
+                    UserEntity(
+                        email = email,
+                        username = username,
+                        password = password,
+                    )
+                )
+            },
             modifier = modifier,
         )
     }
