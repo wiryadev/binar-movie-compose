@@ -30,8 +30,8 @@ jobs:
         
       - name: Decode API Key
         env:
-         BASEURL: ${{ secrets.APIKEY }}
-        run: echo apiKey="$APIKEY" > local.properties
+         BASEURL: ${{ secrets.API_KEY }}
+        run: echo API_KEY="$API_KEY" > local.properties
         
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
