@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.GenericDetailScreen
+import com.wiryadev.binar_movie_compose.ui.components.LoadingScreen
 
 @ExperimentalMaterial3Api
 @Composable
@@ -22,16 +23,20 @@ fun DetailMovieScreen(
     val uiState by viewModel.uiState.collectAsState()
     val movie = uiState.movie
 
-    movie?.let {
-        GenericDetailScreen(
-            title = movie.title,
-            posterPath = movie.posterPath,
-            genres = movie.genres.map { it.name },
-            rating = movie.voteAverage.toString(),
-            dateLabel = stringResource(id = R.string.release_date),
-            dateData = movie.releaseDate,
-            tagline = movie.tagline,
-            overview = movie.overview,
-        )
+    if (uiState.isLoading) {
+        LoadingScreen()
+    } else {
+        movie?.let {
+            GenericDetailScreen(
+                title = movie.title,
+                posterPath = movie.posterPath,
+                genres = movie.genres.map { it.name },
+                rating = movie.voteAverage.toString(),
+                dateLabel = stringResource(id = R.string.release_date),
+                dateData = movie.releaseDate,
+                tagline = movie.tagline,
+                overview = movie.overview,
+            )
+        }
     }
 }

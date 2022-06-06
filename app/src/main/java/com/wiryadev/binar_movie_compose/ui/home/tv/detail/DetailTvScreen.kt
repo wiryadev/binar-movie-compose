@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.wiryadev.binar_movie_compose.R
 import com.wiryadev.binar_movie_compose.ui.components.GenericDetailScreen
+import com.wiryadev.binar_movie_compose.ui.components.LoadingScreen
 
 @ExperimentalMaterial3Api
 @Composable
@@ -22,16 +23,20 @@ fun DetailTvScreen(
     val uiState by viewModel.uiState.collectAsState()
     val tv = uiState.tv
 
-    tv?.let {
-        GenericDetailScreen(
-            title = tv.name,
-            posterPath = tv.posterPath,
-            genres = tv.genres.map { it.name },
-            rating = tv.voteAverage.toString(),
-            dateLabel = stringResource(id = R.string.first_air_date),
-            dateData = tv.firstAirDate,
-            tagline = tv.tagline,
-            overview = tv.overview,
-        )
+    if (uiState.isLoading) {
+        LoadingScreen()
+    } else {
+        tv?.let {
+            GenericDetailScreen(
+                title = tv.name,
+                posterPath = tv.posterPath,
+                genres = tv.genres.map { it.name },
+                rating = tv.voteAverage.toString(),
+                dateLabel = stringResource(id = R.string.first_air_date),
+                dateData = tv.firstAirDate,
+                tagline = tv.tagline,
+                overview = tv.overview,
+            )
+        }
     }
 }
