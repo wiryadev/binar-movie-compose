@@ -28,9 +28,11 @@ import com.wiryadev.binar_movie_compose.ui.home.tv.detail.DetailTvViewModel
 object MainDestinations {
     const val AUTH_ROUTE = "auth"
     const val HOME_ROUTE = "home"
+
     const val MOVIE_DETAIL_ROUTE = "movie"
     const val MOVIE_ID_KEY = "movieId"
-    const val TV_DETAIL_ROUTE = "snack"
+
+    const val TV_DETAIL_ROUTE = "tv"
     const val TV_ID_KEY = "tvId"
 }
 
@@ -47,6 +49,7 @@ fun BinarMovieApp(
     val startRoute = if (isLoggedIn) {
         MainDestinations.HOME_ROUTE
     } else MainDestinations.AUTH_ROUTE
+
     val shouldShowBottomBar = navController.currentBackStackEntryAsState().value
         ?.destination
         ?.route in bottomBarRoutes

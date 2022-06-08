@@ -16,14 +16,14 @@ class MainViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
 
-    private val _mainUiState: MutableStateFlow<MainUiState> =
+    private val _uiState: MutableStateFlow<MainUiState> =
         MutableStateFlow(MainUiState.Initial)
-    val mainUiState: StateFlow<MainUiState> get() = _mainUiState.asStateFlow()
+    val uiState: StateFlow<MainUiState> get() = _uiState.asStateFlow()
 
     fun getUser() {
         viewModelScope.launch {
             userRepository.getUserSession().collectLatest { user ->
-                _mainUiState.value = MainUiState.Loaded(
+                _uiState.value = MainUiState.Loaded(
                     isLoggedIn = user.email.isNotBlank()
                 )
             }
