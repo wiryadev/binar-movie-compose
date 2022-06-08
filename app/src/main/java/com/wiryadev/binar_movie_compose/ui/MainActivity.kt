@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
-            val mainUiState: MainUiState by viewModel.mainUiState.collectAsState()
+            val mainUiState: MainUiState by viewModel.uiState.collectAsState()
 
             BinarMovieComposeTheme(darkTheme = false) {
                 MainScreen(state = mainUiState)
